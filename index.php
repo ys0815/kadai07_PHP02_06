@@ -1,10 +1,11 @@
-<?php
+<?
+// 環境変数を読み込む関数が定義されているファイルを読み込む
 require_once 'load_env.php';
-
+// サーバー名（localhost or さくらサーバーなど）によって使用する .env ファイルを切り替える
 $envFile = ($_SERVER['SERVER_NAME'] === 'localhost')
-    ? __DIR__ . '/.env.local'
-    : __DIR__ . '/.env.production';
-
+    ? __DIR__ . '/.env.local' // ローカル環境用の.envファイル
+    : __DIR__ . '/.env.production'; // 本番サーバー用の.envファイル
+// 選択された.envファイルの中身を読み込んで、環境変数に設定する
 loadEnv($envFile);
 
 // APIキーを使う
@@ -26,7 +27,6 @@ if (!isset($_GET['query'])) {
     $error_message = '検索ワードを入力してください。';
 } else {
     // 検索キーワードがちゃんと送られてきた時（TMDbで実際に検索する）
-
     $query = urlencode($_GET['query']);
     $url = "https://api.themoviedb.org/3/search/movie?api_key={$apiKey}&language=ja-JP&query={$query}&include_adult=false";
     $json = file_get_contents($url);
